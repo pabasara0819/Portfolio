@@ -1,7 +1,7 @@
 // components/FooterInput.jsx (Admin Panel for Editing Footer)
 import React, { useState, useEffect } from 'react';
-// import { db } from '../../firebase/config';
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const FooterInput = () => {
   // State for footer content

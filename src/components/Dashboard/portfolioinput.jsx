@@ -1,8 +1,8 @@
 // components/PortfolioInput.jsx (Admin Panel for Editing Portfolio)
 import React, { useState, useEffect } from 'react';
-// import { db, storage } from '../../firebase/config';
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
-// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../firebase/config';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const PortfolioInput = () => {
   // State for portfolio content

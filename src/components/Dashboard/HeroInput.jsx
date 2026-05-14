@@ -1,8 +1,8 @@
 // components/HeroInput.jsx (Admin Panel for Editing Hero Section)
 import React, { useState, useEffect } from 'react';
-// import { db, storage } from '../../firebase/config';
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
-// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../firebase/config';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const HeroInput = () => {
   // State for hero content

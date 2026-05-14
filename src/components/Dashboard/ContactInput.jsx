@@ -1,7 +1,6 @@
-// components/ContactInput.jsx (Admin Panel for Editing Contact Section)
 import React, { useState, useEffect } from 'react';
-// import { db } from '../../firebase/config';
-// import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase/config';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const ContactInput = () => {
   // State for contact content

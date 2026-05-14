@@ -1,7 +1,7 @@
-// components/Contact.jsx (Updated to fetch from Firebase - structure unchanged)
+// components/Contact.jsx
 import React, { useState, useEffect } from 'react';
-// import { db } from '../../firebase/config';
-// import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
+import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -199,9 +199,25 @@ const Contact = () => {
     if (Object.keys(newErrors).length === 0) {
       setIsSubmitting(true);
       
-      // Simulate API call
-      setTimeout(() => {
-        console.log('Form submitted:', formData);
+      try {
+        // Save to Firebase Firestore
+        const messagesRef = collection(db, 'ContactMessages');
+        const messageData = {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || '',
+          subject: formData.subject,
+          message: formData.message,
+          service: formData.service || '',
+          timestamp: serverTimestamp(),
+          date: new Date().toLocaleDateString(),
+          read: false,
+          createdAt: new Date().toISOString()
+        };
+        
+        await addDoc(messagesRef, messageData);
+        console.log('Message saved to Firebase successfully!');
+        
         setSubmitStatus('success');
         setFormData({
           name: '',
@@ -212,11 +228,16 @@ const Contact = () => {
           service: ''
         });
         setCharacterCount(0);
-        setIsSubmitting(false);
         
         // Clear success message after 5 seconds
         setTimeout(() => setSubmitStatus(null), 5000);
-      }, 1500);
+      } catch (error) {
+        console.error('Error saving message to Firebase:', error);
+        setSubmitStatus('error');
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       setErrors(newErrors);
     }
@@ -281,6 +302,15 @@ const Contact = () => {
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                   {contactData?.successMessage || "Message sent successfully! I'll get back to you soon."}
+                </div>
+              )}
+              
+              {submitStatus === 'error' && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center text-sm">
+                  <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  Failed to send message. Please try again.
                 </div>
               )}
 

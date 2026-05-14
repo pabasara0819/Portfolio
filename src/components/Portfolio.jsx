@@ -1,7 +1,7 @@
 // components/Portfolio.jsx (Updated to fetch from Firebase - structure unchanged)
 import React, { useState, useEffect } from 'react';
-// import { db } from '../../firebase/config';
-// import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Portfolio = () => {
   const [activeFilter, setActiveFilter] = useState('All');
